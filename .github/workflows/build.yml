@@ -129,5 +129,10 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ matrix.build_type == 'Release' }}
       with:
-          name: ${{ matrix.os }}
-          path: build/
+          name: aseprite-${{ matrix.os }}
+          if-no-files-found: error
+          path: |
+            build/bin/aseprite.exe
+            build/bin/*.dll
+            build/bin/icudtl.dat
+            build/bin/data/
