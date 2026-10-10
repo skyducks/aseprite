@@ -96,6 +96,18 @@ jobs:
       shell: bash
       run: |
         cd build && ninja
+    - name: Copy libcrypto
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+        src=$(find "/c/Program Files" "/c/Windows/System32" -name libcrypto-3-x64.dll 2>/dev/null | head -n 1)
+        if [[ -z "$src" ]] ; then
+          echo "libcrypto-3-x64.dll not found on runner" >&2
+          exit 1
+        fi
+        echo "Copying $src"
+        cp "$src" build/bin/
+        ls -l build/bin/*.dll
     - name: Running C++ Tests
       shell: bash
       run: |
